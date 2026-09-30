@@ -37,20 +37,41 @@ const project = computed(() => appStore.getProject(props.task.projectId))
     <StatusDot :status="task.status" />
     <span class="priority" :class="task.priority">{{ task.priority }}</span>
     <span class="t-assignee">
-      <Avatar v-if="assignee" :name="assignee.name" :color="assignee.color" :size="22" />
+      <Avatar v-if="assignee" :name="assignee.name" :color="assignee.color" :size="20" />
+      <span v-if="assignee" class="t-person-name">{{ assignee.name }}</span>
     </span>
     <span class="t-executor">
       <Avatar
         v-if="executor"
         :name="executor.name"
         :color="executor.color"
-        :size="22"
+        :size="20"
         agent
       />
+      <span v-if="executor" class="t-person-name">{{ executor.cnName }}</span>
     </span>
     <span class="t-due" :class="{ overdue: isOverdue(task.dueDate) && task.status !== 'done' }">
-      <template v-if="showProject && project">{{ project.name }}</template>
+      <template v-if="showProject && project">
+        <span class="t-project" :title="project.name">{{ project.name }}</span>
+        <span class="t-due-date">{{ dueDateLabel(task.dueDate) }}</span>
+      </template>
       <template v-else>{{ dueDateLabel(task.dueDate) }}</template>
     </span>
   </div>
 </template>
+
+<style scoped>
+.t-project {
+  display: block;
+  font-size: 11px;
+  color: var(--text-3);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.t-due-date {
+  display: block;
+  font-size: 11px;
+}
+</style>

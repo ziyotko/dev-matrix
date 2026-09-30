@@ -46,11 +46,11 @@ const domainLabel: Record<string, string> = {
 }
 
 const capLabel: Record<string, string> = {
-  generate: '生成',
-  analyze: '分析',
-  review: '审查',
-  convert: '转换',
-  execute: '执行'
+  生成类: '生成',
+  审核类: '审核',
+  分析类: '分析',
+  执行类: '执行',
+  辅助类: '辅助'
 }
 </script>
 

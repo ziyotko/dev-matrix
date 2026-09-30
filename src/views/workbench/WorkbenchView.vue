@@ -7,6 +7,7 @@ import { projectColor, relativeTime } from '@/utils'
 import { canViewProject } from '@/utils/permission'
 import TaskRow from '@/components/TaskRow.vue'
 import NewTaskDrawer from '@/components/NewTaskDrawer.vue'
+import StatusDot from '@/components/StatusDot.vue'
 import type { Task } from '@/types'
 
 const router = useRouter()
@@ -97,7 +98,7 @@ const openProject = (id: string) => router.push(`/projects/${id}`)
     <div class="panel">
       <div class="panel-head">
         <span class="ph-title">我的任务</span>
-        <el-link type="primary" :underline="false" @click="router.push('/tasks')">查看全部</el-link>
+        <el-link type="primary" underline="never" @click="router.push('/tasks')">查看全部</el-link>
       </div>
       <div class="panel-body flush">
         <template v-if="myTaskList.length">
@@ -120,7 +121,7 @@ const openProject = (id: string) => router.push(`/projects/${id}`)
     <div class="panel section-gap">
       <div class="panel-head">
         <span class="ph-title">最近项目</span>
-        <el-link type="primary" :underline="false" @click="router.push('/projects')">全部项目</el-link>
+        <el-link type="primary" underline="never" @click="router.push('/projects')">全部项目</el-link>
       </div>
       <div class="panel-body flush">
         <div
@@ -134,6 +135,9 @@ const openProject = (id: string) => router.push(`/projects/${id}`)
             <div class="wp-name">{{ p.name }}</div>
             <div class="wp-key">{{ p.key }}</div>
           </div>
+          <StatusDot
+            :status="p.status === 'active' ? 'in_progress' : p.status === 'done' ? 'done' : 'todo'"
+          />
           <div class="wp-progress">
             <div class="progress-bar">
               <div class="bar" :style="{ width: appStore.projectProgress(p.id) + '%' }"></div>
@@ -172,7 +176,7 @@ const openProject = (id: string) => router.push(`/projects/${id}`)
               <span v-if="ex.testsPassed || ex.testsFailed" :class="ex.testsFailed ? 'err' : 'ok'">
                 测试通过 {{ ex.testsPassed }}/{{ ex.testsPassed + ex.testsFailed }}
               </span>
-              <el-link type="primary" :underline="false" style="font-size: 12px" @click.stop="openTaskById(ex.taskId)">
+              <el-link type="primary" underline="never" style="font-size: 12px" @click.stop="openTaskById(ex.taskId)">
                 查看结果
               </el-link>
             </div>
@@ -188,7 +192,7 @@ const openProject = (id: string) => router.push(`/projects/${id}`)
 <style scoped>
 .wb-project {
   display: grid;
-  grid-template-columns: 30px minmax(0, 1fr) 160px 90px;
+  grid-template-columns: 30px minmax(0, 1fr) 76px 150px 84px;
   align-items: center;
   gap: 12px;
   padding: 10px 14px;
